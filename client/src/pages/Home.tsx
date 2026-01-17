@@ -5,17 +5,94 @@ import { useProducts } from "@/hooks/use-products";
 import { ProductCard } from "@/components/ProductCard";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { useEffect } from "react";
+import { useLocation } from "wouter";
 
 export default function Home() {
   const { data: products, isLoading } = useProducts();
+  const [location] = useLocation();
+
+  useEffect(() => {
+    // Se houver hash na URL, faz scroll para a seção
+    if (location.includes("#")) {
+      const hash = location.split("#")[1];
+      setTimeout(() => {
+        const element = document.querySelector(`#${hash}`);
+        if (element) {
+          const headerOffset = 100;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
+        }
+      }, 100);
+    }
+  }, [location]);
 
   return (
     <HelmetProvider>
       <div className="min-h-screen bg-background">
         <Helmet>
-          <title>Slipper World - The Coziest Fluffy Slippers & Flip Flops</title>
-          <meta name="description" content="Discover ultimate comfort at Slipper World. Shop our collection of cute, fluffy slippers, warm house shoes, and cozy flip flops. Perfect for relaxing at home." />
-          <meta name="keywords" content="slippers, flip flops, fluffy slippers, cute slippers, warm slippers, house shoes, pantufas, comfort footwear, aesthetic shoes" />
+          <title>Comfortable Slippers UK | Pantufas & Fluffy House Shoes | Slipper World</title>
+          <meta name="description" content="Shop the UK's best comfortable slippers, pantufas, and fluffy house shoes. Premium memory foam slippers, cozy flip flops, and warm indoor footwear. Free UK delivery on comfortable slippers. Find your perfect pair of pantufas today!" />
+          <meta name="keywords" content="comfortable slippers UK, pantufas, fluffy slippers, memory foam slippers, house shoes, indoor slippers, cozy slippers, warm slippers, comfortable flip flops, slippers for women, slippers for men, best slippers UK, cheap slippers, luxury slippers, anti-slip slippers, winter slippers, plush slippers, soft slippers, comfortable footwear, home shoes, bedroom slippers, lounge slippers, chinelos confortáveis, pantufas confortáveis" />
+          <meta name="robots" content="index, follow" />
+          <link rel="canonical" href="https://slipperworld.co.uk/" />
+          
+          {/* Open Graph */}
+          <meta property="og:title" content="Comfortable Slippers UK | Pantufas & Fluffy House Shoes | Slipper World" />
+          <meta property="og:description" content="Shop the UK's best comfortable slippers, pantufas, and fluffy house shoes. Premium memory foam slippers with free UK delivery." />
+          <meta property="og:url" content="https://slipperworld.co.uk/" />
+          <meta property="og:type" content="website" />
+          <meta property="og:image" content="https://slipperworld.co.uk/products/B0BYNYWKC7/imagem_01.jpg" />
+          <meta property="og:locale" content="en_GB" />
+          <meta property="og:site_name" content="Slipper World UK" />
+          
+          {/* Twitter Card */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="Comfortable Slippers UK | Pantufas & Fluffy House Shoes" />
+          <meta name="twitter:description" content="Shop the UK's best comfortable slippers, pantufas, and fluffy house shoes. Premium memory foam slippers with free UK delivery." />
+          <meta name="twitter:image" content="https://slipperworld.co.uk/products/B0BYNYWKC7/imagem_01.jpg" />
+          
+          {/* Schema.org for CollectionPage */}
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "CollectionPage",
+              "name": "Comfortable Slippers Collection - Slipper World UK",
+              "description": "Browse our collection of comfortable slippers, pantufas, and fluffy house shoes. Premium memory foam slippers for men and women with free UK delivery.",
+              "url": "https://slipperworld.co.uk/",
+              "mainEntity": {
+                "@type": "ItemList",
+                "itemListElement": products?.map((product, index) => ({
+                  "@type": "ListItem",
+                  "position": index + 1,
+                  "item": {
+                    "@type": "Product",
+                    "name": product.name,
+                    "description": product.description,
+                    "image": product.imageUrl,
+                    "url": `https://slipperworld.co.uk/product/${product.id}`,
+                    "offers": {
+                      "@type": "Offer",
+                      "price": product.price,
+                      "priceCurrency": "GBP",
+                      "availability": "https://schema.org/InStock",
+                      "url": product.amazonUrl
+                    },
+                    "aggregateRating": product.rating ? {
+                      "@type": "AggregateRating",
+                      "ratingValue": product.rating,
+                      "reviewCount": product.reviews || 0
+                    } : undefined
+                  }
+                })).filter(Boolean) || []
+              }
+            })}
+          </script>
         </Helmet>
 
         <Navigation />
@@ -38,23 +115,55 @@ export default function Home() {
                     ✨ New Winter Collection
                   </span>
                   <h1 className="font-display text-5xl lg:text-7xl font-extrabold text-foreground leading-[1.1] mb-6">
-                    Step into <br/>
+                    Comfortable Slippers & <br/>
                     <span className="text-primary relative inline-block">
-                      Pure Comfort
+                      Pantufas UK
                       <svg className="absolute w-full h-3 -bottom-1 left-0 text-primary/30" viewBox="0 0 100 10" preserveAspectRatio="none">
                         <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="8" fill="none" />
                       </svg>
                     </span>
                   </h1>
                   <p className="text-lg text-muted-foreground mb-8 max-w-lg leading-relaxed">
-                    Treat your feet to the softest, cutest, and most comfortable slippers. Designed to make every step at home feel like walking on clouds.
+                    Discover the UK's best comfortable slippers and pantufas. Our fluffy house shoes and cozy chinelos confortáveis feature premium memory foam for ultimate comfort. Perfect for relaxing at home with the softest, most comfortable slippers available.
                   </p>
                   
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <a href="#shop" className="px-8 py-4 bg-foreground text-white rounded-2xl font-bold text-lg hover:bg-foreground/90 transition-all flex items-center justify-center gap-2 shadow-lg shadow-foreground/20">
+                    <a 
+                      href="#shop" 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        const element = document.querySelector("#shop");
+                        if (element) {
+                          const headerOffset = 100;
+                          const elementPosition = element.getBoundingClientRect().top;
+                          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                          window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                          });
+                        }
+                      }}
+                      className="px-8 py-4 bg-foreground text-white rounded-2xl font-bold text-lg hover:bg-foreground/90 transition-all flex items-center justify-center gap-2 shadow-lg shadow-foreground/20"
+                    >
                       Shop Slippers <ArrowRight size={20} />
                     </a>
-                    <a href="#about" className="px-8 py-4 bg-white text-foreground rounded-2xl font-bold text-lg hover:bg-secondary/50 transition-all flex items-center justify-center gap-2 border border-border shadow-sm">
+                    <a 
+                      href="#about" 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        const element = document.querySelector("#about");
+                        if (element) {
+                          const headerOffset = 100;
+                          const elementPosition = element.getBoundingClientRect().top;
+                          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                          window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                          });
+                        }
+                      }}
+                      className="px-8 py-4 bg-white text-foreground rounded-2xl font-bold text-lg hover:bg-secondary/50 transition-all flex items-center justify-center gap-2 border border-border shadow-sm"
+                    >
                       Our Story
                     </a>
                   </div>
@@ -91,9 +200,10 @@ export default function Home() {
                     {/* Placeholder for Hero Image - warm, cozy aesthetic */}
                     <div className="aspect-[4/5] bg-secondary/50 relative">
                        <img 
-                         src="https://images.unsplash.com/photo-1574620583733-47124f5a34e5?q=80&w=1000&auto=format&fit=crop" 
-                         alt="Cozy person wearing slippers with coffee"
+                         src="/products/B0BYNYWKC7/imagem_01.jpg" 
+                         alt="Comfortable fluffy slippers and pantufas from Slipper World UK - Premium memory foam house shoes"
                          className="object-cover w-full h-full"
+                         loading="eager"
                        />
                        {/* Floating badge */}
                        <div className="absolute top-8 left-8 bg-white/90 backdrop-blur rounded-2xl p-4 shadow-lg flex items-center gap-3">
@@ -123,8 +233,9 @@ export default function Home() {
                     <Truck size={24} />
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg">Free Shipping</h3>
-                    <p className="text-muted-foreground text-sm">On all orders over $50</p>
+                    <h3 className="font-bold text-lg">Shipping</h3>
+                    <p className="text-muted-foreground text-sm">Depending on product</p>
+                    <p className="text-muted-foreground text-sm mt-1">Choose different colors and sizes.</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-secondary/20 transition-colors cursor-default">
@@ -154,9 +265,9 @@ export default function Home() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-16">
                 <span className="text-primary font-bold tracking-wider uppercase text-sm">Our Collection</span>
-                <h2 className="font-display text-4xl font-bold text-foreground mt-2 mb-4">Find Your Perfect Pair</h2>
+                <h2 className="font-display text-4xl font-bold text-foreground mt-2 mb-4">Comfortable Slippers & Pantufas for Every Home</h2>
                 <p className="text-muted-foreground max-w-2xl mx-auto">
-                  From fluffy slides to warm booties, our collection is designed to keep you cozy all year round.
+                  Browse our extensive collection of comfortable slippers, pantufas, and fluffy house shoes. From memory foam slippers to cozy chinelos confortáveis, we offer the UK's best selection of comfortable indoor footwear. Each pair is designed to provide ultimate comfort and warmth for your feet.
                 </p>
               </div>
 
@@ -196,25 +307,26 @@ export default function Home() {
                 <div className="relative">
                    <div className="aspect-square rounded-full overflow-hidden border-8 border-white shadow-xl max-w-md mx-auto relative z-10">
                      <img 
-                       src="https://pixabay.com/get/g1e652f25c71dc73ad00c4b842a060cb7afcc3177f10224122b737bcfa94d3346cb698fecf82a87e7347814fe6480541b3abba6a32a50c5340ca5fabec9c52dba_1280.png" 
-                       alt="Cozy home atmosphere" 
+                       src="/products/B07FT8F3PK/imagem_01.jpg" 
+                       alt="Comfortable slippers and pantufas collection - Slipper World UK cozy home footwear" 
                        className="w-full h-full object-cover"
+                       loading="lazy"
                      />
                    </div>
                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-white/40 rounded-full blur-3xl -z-0" />
                 </div>
                 
                 <div>
-                  <h2 className="font-display text-4xl font-bold text-foreground mb-6">The Slipper World Mission</h2>
+                  <h2 className="font-display text-4xl font-bold text-foreground mb-6">The Slipper World Mission: Comfortable Slippers & Pantufas for Everyone</h2>
                   <div className="space-y-6 text-lg text-muted-foreground">
                     <p>
-                      We believe that the moment you step into your home, you should feel an immediate sense of relief and comfort. That's why we started Slipper World.
+                      We believe that the moment you step into your home, you should feel an immediate sense of relief and comfort. That's why we started Slipper World - to bring you the UK's best comfortable slippers and pantufas.
                     </p>
                     <p>
-                      Our "pantufas" aren't just shoes; they're a hug for your feet. We source the softest, most durable materials to ensure that cozy feeling lasts step after step.
+                      Our comfortable slippers and pantufas aren't just shoes; they're a hug for your feet. We source the softest, most durable materials including premium memory foam to ensure that cozy feeling lasts step after step. Every pair of our fluffy house shoes is designed to be the most comfortable slippers you'll ever own.
                     </p>
                     <p>
-                      Whether you're working from home, enjoying a lazy Sunday, or just need to warm up on a cold night, we've got the perfect pair waiting for you.
+                      Whether you're working from home, enjoying a lazy Sunday, or just need to warm up on a cold night, we've got the perfect pair of comfortable slippers or pantufas waiting for you. Our collection includes everything from cozy chinelos confortáveis to luxurious memory foam slippers, all available with free UK delivery.
                     </p>
                   </div>
                   <div className="mt-8">
@@ -223,38 +335,13 @@ export default function Home() {
                       alt="Signature" 
                       className="h-12 opacity-60" 
                     />
-                    <p className="mt-2 font-bold text-sm text-foreground">Founder, Slipper World</p>
+                    <p className="mt-2 font-bold text-sm text-foreground">Founder, Slipper World Store</p>
                   </div>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* Newsletter / CTA */}
-          <section className="py-24 px-4">
-            <div className="max-w-5xl mx-auto bg-foreground rounded-[2.5rem] p-8 md:p-16 text-center relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-primary rounded-full blur-[80px] opacity-20" />
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent rounded-full blur-[80px] opacity-20" />
-              
-              <div className="relative z-10">
-                <h2 className="font-display text-3xl md:text-5xl font-bold text-white mb-6">Ready to get cozy?</h2>
-                <p className="text-gray-300 text-lg mb-8 max-w-xl mx-auto">
-                  Join our cozy club and get 10% off your first order of fluffy goodness.
-                </p>
-                
-                <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
-                  <input 
-                    type="email" 
-                    placeholder="Enter your email" 
-                    className="flex-1 px-6 py-4 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-gray-400 focus:outline-none focus:bg-white/20 transition-all"
-                  />
-                  <button className="px-8 py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:bg-white hover:text-foreground transition-all">
-                    Subscribe
-                  </button>
-                </form>
-              </div>
-            </div>
-          </section>
         </main>
 
         <Footer />

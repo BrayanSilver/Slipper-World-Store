@@ -1,13 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import { api, buildUrl } from "@shared/routes";
+import { api, buildUrl, type Product } from "@/lib/routes";
+import { productsData } from "@/data/products";
 
 export function useProducts() {
   return useQuery({
     queryKey: [api.products.list.path],
     queryFn: async () => {
-      const res = await fetch(api.products.list.path);
-      if (!res.ok) throw new Error("Failed to fetch products");
-      return api.products.list.responses[200].parse(await res.json());
+      // Simulate a small delay for realistic loading
+      await new Promise(resolve => setTimeout(resolve, 500));
+      return productsData;
     },
   });
 }
@@ -16,11 +17,10 @@ export function useProduct(id: number) {
   return useQuery({
     queryKey: [api.products.get.path, id],
     queryFn: async () => {
-      const url = buildUrl(api.products.get.path, { id });
-      const res = await fetch(url);
-      if (res.status === 404) return null;
-      if (!res.ok) throw new Error("Failed to fetch product");
-      return api.products.get.responses[200].parse(await res.json());
+      // Simulate a small delay for realistic loading
+      await new Promise(resolve => setTimeout(resolve, 300));
+      const product = productsData.find(p => p.id === id);
+      return product || null;
     },
   });
 }
