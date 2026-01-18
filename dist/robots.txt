@@ -9,7 +9,7 @@ Disallow: /admin/
 Disallow: /*.json$
 
 # Sitemap location
-Sitemap: https://slipperworld.co.uk/sitemap.xml
+Sitemap: https://slipper-world-store.vercel.app/sitemap.xml
 
 # Crawl-delay (optional, helps prevent server overload)
 Crawl-delay: 1
