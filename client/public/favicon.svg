@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Warm cream background circle -->
+  <circle cx="32" cy="32" r="31" fill="#F9F7F4"/>
+  
+  <!-- Main slipper shape - cozy and rounded -->
+  <path d="M 18 38 
+           Q 14 35 14 30 
+           Q 14 25 18 22 
+           Q 22 20 28 20 
+           Q 34 20 38 22 
+           Q 42 25 44 30 
+           Q 46 35 44 40 
+           Q 42 45 38 46 
+           Q 34 47 28 46 
+           Q 22 45 18 42 
+           Z" 
+        fill="#F5B8C4" stroke="#E89AAF" stroke-width="1.2"/>
+  
+  <!-- Fluffy texture details -->
+  <ellipse cx="26" cy="28" rx="2" ry="1.5" fill="#E89AAF" opacity="0.4"/>
+  <ellipse cx="30" cy="32" rx="2" ry="1.5" fill="#E89AAF" opacity="0.4"/>
+  <ellipse cx="34" cy="36" rx="2" ry="1.5" fill="#E89AAF" opacity="0.4"/>
+  
+  <!-- Accent dot with sage green -->
+  <circle cx="32" cy="32" r="2.5" fill="#C4D9C8"/>
+  
+  <!-- Soft shadow -->
+  <ellipse cx="32" cy="48" rx="12" ry="4" fill="#E8DCC8" opacity="0.3"/>
+</svg>
