@@ -135,10 +135,10 @@ export default function ProductDetails() {
                   }
                 }
               },
-              "aggregateRating": product.rating ? {
+              "aggregateRating": (product.rating && product.reviews && product.reviews > 0) ? {
                 "@type": "AggregateRating",
                 "ratingValue": product.rating.toString(),
-                "reviewCount": (product.reviews || 0).toString(),
+                "reviewCount": product.reviews.toString(),
                 "bestRating": "5",
                 "worstRating": "1"
               } : undefined,

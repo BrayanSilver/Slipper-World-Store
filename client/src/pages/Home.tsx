@@ -83,10 +83,10 @@ export default function Home() {
                       "availability": "https://schema.org/InStock",
                       "url": product.amazonUrl
                     },
-                    "aggregateRating": product.rating ? {
+                    "aggregateRating": (product.rating && product.reviews && product.reviews > 0) ? {
                       "@type": "AggregateRating",
                       "ratingValue": product.rating,
-                      "reviewCount": product.reviews || 0
+                      "reviewCount": product.reviews
                     } : undefined
                   }
                 })).filter(Boolean) || []
